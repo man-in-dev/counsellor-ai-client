@@ -7,7 +7,7 @@ import {
 import axios from 'axios';
 
 /* ─────────────── helpers ─────────────── */
-const API = 'http://localhost:5000/api';
+const API = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 /* ─────────────── Custom Dropdown ─────────────── */
 const CustomDropdown = ({ value, onChange, options, label, icon: Icon }) => {
@@ -132,12 +132,12 @@ const RankTab = ({ type }) => {
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '3rem', alignItems: 'flex-start' }}>
       {/* Input Side */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-        <div style={{ 
-          padding: '3rem', 
-          background: 'white', 
-          borderRadius: '32px', 
-          border: '1px solid #f1f5f9', 
-          boxShadow: '0 20px 50px rgba(0,0,0,0.05)' 
+        <div style={{
+          padding: '3rem',
+          background: 'white',
+          borderRadius: '32px',
+          border: '1px solid #f1f5f9',
+          boxShadow: '0 20px 50px rgba(0,0,0,0.05)'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', marginBottom: '2.5rem' }}>
             <div style={{ width: '56px', height: '56px', background: 'var(--primary-light)', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -157,32 +157,32 @@ const RankTab = ({ type }) => {
               <input
                 type="number" min={0} max={maxMarks}
                 value={marks} onChange={e => setMarks(e.target.value)}
-                style={{ 
-                  width: '100%', 
-                  padding: '1rem 1.25rem', 
-                  borderRadius: '12px', 
-                  border: '1px solid #e2e8f0', 
-                  fontSize: '1.1rem', 
-                  fontWeight: 600, 
+                style={{
+                  width: '100%',
+                  padding: '1rem 1.25rem',
+                  borderRadius: '12px',
+                  border: '1px solid #e2e8f0',
+                  fontSize: '1.1rem',
+                  fontWeight: 600,
                   background: '#f8fafc',
                   outline: 'none'
-                }} 
+                }}
                 placeholder={`e.g. ${type === 'JEE' ? '180' : '620'}`}
                 required
               />
             </div>
 
             <button type="submit" disabled={loading} className="btn"
-              style={{ 
-                padding: '1.1rem', 
-                background: '#0a0f1d', 
-                color: 'white', 
-                borderRadius: '14px', 
-                fontWeight: 700, 
+              style={{
+                padding: '1.1rem',
+                background: '#0a0f1d',
+                color: 'white',
+                borderRadius: '14px',
+                fontWeight: 700,
                 fontSize: '1rem',
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center', 
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
                 gap: '0.75rem',
                 opacity: loading ? 0.7 : 1
               }}>
@@ -198,11 +198,11 @@ const RankTab = ({ type }) => {
         <AnimatePresence mode="wait">
           {!result && !loading && (
             <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-              style={{ 
-                padding: '4rem 2rem', 
-                borderRadius: '32px', 
-                background: '#fcfcfd', 
-                border: '2px dashed #e2e8f0', 
+              style={{
+                padding: '4rem 2rem',
+                borderRadius: '32px',
+                background: '#fcfcfd',
+                border: '2px dashed #e2e8f0',
                 textAlign: 'center',
                 display: 'flex',
                 flexDirection: 'column',
@@ -234,12 +234,12 @@ const RankTab = ({ type }) => {
           {result && !loading && (
             <motion.div key="result" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
               style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              
-              <div style={{ 
-                padding: '3rem', 
-                background: 'white', 
-                borderRadius: '32px', 
-                border: '1px solid #f1f5f9', 
+
+              <div style={{
+                padding: '3rem',
+                background: 'white',
+                borderRadius: '32px',
+                border: '1px solid #f1f5f9',
                 boxShadow: '0 20px 50px rgba(0,0,0,0.05)',
                 textAlign: 'center'
               }}>
@@ -298,12 +298,14 @@ const CollegeTab = ({ type }) => {
       setResult(data);
     } catch {
       const rank = Math.round((1 - Number(marks) / maxMarks) * 800000) + 500;
-      setResult({ rank, colleges: [
-        { name: "IIT Bombay", course: "Computer Science", state: "Maharashtra", closingRank: 67 },
-        { name: "IIT Delhi", course: "Computer Science", state: "Delhi", closingRank: 115 },
-        { name: "IIT Madras", course: "Electrical Engineering", state: "Tamil Nadu", closingRank: 450 },
-        { name: "NIT Trichy", course: "Electronics & Comm.", state: "Tamil Nadu", closingRank: 3200 }
-      ] });
+      setResult({
+        rank, colleges: [
+          { name: "IIT Bombay", course: "Computer Science", state: "Maharashtra", closingRank: 67 },
+          { name: "IIT Delhi", course: "Computer Science", state: "Delhi", closingRank: 115 },
+          { name: "IIT Madras", course: "Electrical Engineering", state: "Tamil Nadu", closingRank: 450 },
+          { name: "NIT Trichy", course: "Electronics & Comm.", state: "Tamil Nadu", closingRank: 3200 }
+        ]
+      });
     } finally {
       setTimeout(() => setLoading(false), 800);
     }
@@ -313,12 +315,12 @@ const CollegeTab = ({ type }) => {
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '3rem', alignItems: 'flex-start' }}>
       {/* Input Side */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-        <div style={{ 
-          padding: '3rem', 
-          background: 'white', 
-          borderRadius: '32px', 
-          border: '1px solid #f1f5f9', 
-          boxShadow: '0 20px 50px rgba(0,0,0,0.05)' 
+        <div style={{
+          padding: '3rem',
+          background: 'white',
+          borderRadius: '32px',
+          border: '1px solid #f1f5f9',
+          boxShadow: '0 20px 50px rgba(0,0,0,0.05)'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', marginBottom: '2.5rem' }}>
             <div style={{ width: '56px', height: '56px', background: '#ecfdf5', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -336,16 +338,16 @@ const CollegeTab = ({ type }) => {
               <input
                 type="number" min={0} max={maxMarks}
                 value={marks} onChange={e => setMarks(e.target.value)}
-                style={{ 
-                  width: '100%', 
-                  padding: '1rem 1.25rem', 
-                  borderRadius: '12px', 
-                  border: '1px solid #e2e8f0', 
-                  fontSize: '1.1rem', 
-                  fontWeight: 600, 
+                style={{
+                  width: '100%',
+                  padding: '1rem 1.25rem',
+                  borderRadius: '12px',
+                  border: '1px solid #e2e8f0',
+                  fontSize: '1.1rem',
+                  fontWeight: 600,
                   background: '#f8fafc',
                   outline: 'none'
-                }} 
+                }}
                 placeholder={`e.g. ${type === 'JEE' ? '180' : '620'}`}
                 required
               />
@@ -362,16 +364,16 @@ const CollegeTab = ({ type }) => {
             </div>
 
             <button type="submit" disabled={loading} className="btn"
-              style={{ 
-                padding: '1.1rem', 
-                background: '#10b981', 
-                color: 'white', 
-                borderRadius: '14px', 
-                fontWeight: 700, 
+              style={{
+                padding: '1.1rem',
+                background: '#10b981',
+                color: 'white',
+                borderRadius: '14px',
+                fontWeight: 700,
                 fontSize: '1rem',
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center', 
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
                 gap: '0.75rem',
                 opacity: loading ? 0.7 : 1
               }}>
@@ -387,11 +389,11 @@ const CollegeTab = ({ type }) => {
         <AnimatePresence mode="wait">
           {!result && !loading && (
             <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-              style={{ 
-                padding: '4rem 2rem', 
-                borderRadius: '32px', 
-                background: '#fcfcfd', 
-                border: '2px dashed #e2e8f0', 
+              style={{
+                padding: '4rem 2rem',
+                borderRadius: '32px',
+                background: '#fcfcfd',
+                border: '2px dashed #e2e8f0',
                 textAlign: 'center',
                 display: 'flex',
                 flexDirection: 'column',
@@ -423,12 +425,12 @@ const CollegeTab = ({ type }) => {
           {result && !loading && (
             <motion.div key="result" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
               style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-              
-              <div style={{ 
-                padding: '2rem 2.5rem', 
-                background: 'white', 
-                borderRadius: '24px', 
-                border: '1px solid #f1f5f9', 
+
+              <div style={{
+                padding: '2rem 2.5rem',
+                background: 'white',
+                borderRadius: '24px',
+                border: '1px solid #f1f5f9',
                 boxShadow: '0 10px 30px rgba(0,0,0,0.02)',
                 display: 'flex',
                 alignItems: 'center',
@@ -453,13 +455,13 @@ const CollegeTab = ({ type }) => {
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: idx * 0.1 }}
-                    style={{ 
-                      padding: '1.50rem 2rem', 
-                      background: 'white', 
-                      borderRadius: '20px', 
-                      border: '1px solid #f1f5f9', 
-                      display: 'flex', 
-                      alignItems: 'center', 
+                    style={{
+                      padding: '1.50rem 2rem',
+                      background: 'white',
+                      borderRadius: '20px',
+                      border: '1px solid #f1f5f9',
+                      display: 'flex',
+                      alignItems: 'center',
                       justifyContent: 'space-between',
                       boxShadow: '0 4px 10px rgba(0,0,0,0.01)'
                     }}
